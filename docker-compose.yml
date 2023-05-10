@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+###> doctrine/doctrine-bundle ###
+#  database:
+#    image: postgres:${POSTGRES_VERSION:-15}-alpine
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-my_database}
+      MYSQL_USER: ${MYSQL_USER:-my_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-my_password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-my_root_password}
+    ports:
+      - '3307:3306'
+    volumes:
+      - ./data:/var/lib/mysql
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+
+volumes:
+###> doctrine/doctrine-bundle ###
+  database_data:
+###< doctrine/doctrine-bundle ###

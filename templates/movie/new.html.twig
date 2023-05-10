@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add new Movie{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="d-flex justify-content-between mt-5 mb-5">
+            <h2>Add new Movie</h2>
+            <a class="btn btn-primary text"
+               href="{{ path('movie_index') }}">Back to movies list</a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_start(form) }}
+                <div class="form-group mb-4">
+                    {{ form_label(form.title, 'Title') }}
+                    {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.title) }}
+                </div>
+
+                <div class="form-group mb-4">
+                    {{ form_label(form.price, 'Price,') }}
+                    {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.price) }}
+                </div>
+
+                <div class="form-group mb-4">
+                    {{ form_label(form.vat, 'VAT, %') }}
+                    {{ form_widget(form.vat, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.vat) }}
+                </div>
+
+                <div class="form-group mb-4">
+                    {{ form_label(form.description, 'Description') }}
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.description) }}
+                </div>
+
+                <button type="submit" class="btn btn-success">Create</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

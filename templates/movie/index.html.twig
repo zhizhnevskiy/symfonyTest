@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List of all Movies{% endblock %}
+
+{% block body %}
+    <div class="container ">
+        <div class="d-flex justify-content-between mt-5">
+            <h2>List of all Movies</h2>
+            <a class="btn btn-primary"
+               href="{{ path('movie_new') }}">Add new Movie</a>
+        </div>
+        <form class="form-inline my-2 my-lg-0" method="GET" action="{{ path('movie_search') }}">
+            <div class="d-flex justify-content-between mt-5 mb-5">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search Movie" aria-label="Search"
+                       name="q">
+                <button class="btn btn-outline-success my-2 my-sm-0 ms-lg-2"
+                        type="submit"
+                >Search
+                </button>
+            </div>
+        </form>
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="text-nowrap">Title</th>
+                <th class="text-nowrap">Price</th>
+                <th class="text-nowrap">VAT</th>
+                <th class="text-nowrap">Total Price with VAT</th>
+                <th class="text-nowrap">Description</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for movie in movies %}
+                <tr>
+                    <td >{{ movie.title }}</a></td>
+                    <td>{{ movie.price }}$</td>
+                    <td>{{ movie.vat }}%</td>
+                    <td>{{ movie.price * (1 + movie.vat / 100) }}$</td>
+                    <td>{{ movie.description }}</td>
+                    <td>
+                        <form class="d-flex justify-content-end" action="{{ path('movie_delete', {'id': movie.id}) }}"
+                              method="POST">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ movie.id) }}">
+                            <button type="submit" class="btn
+                             btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,88 @@
+openapi: 3.0.0
+info:
+  title: Movie API
+  version: 1.0.0
+paths:
+  /api/movies:
+    post:
+      tags:
+        - Movies
+      summary: Create a new movie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+      responses:
+        '201':
+          description: Movie created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '400':
+          description: Not valid data (List of errors)
+    put:
+      tags:
+        - Movies
+      summary: Update an existing movie
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID of the movie to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+      responses:
+        '200':
+          description: Movie updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '400':
+          description: Not valid data (List of errors)
+        '404':
+          description: Please, change id for Movie
+    delete:
+      tags:
+        - Movies
+      summary: Delete an existing movie
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID of the movie to delete
+      responses:
+        '204':
+          description: Movie deleted successfully
+        '404':
+          description: Please, change id for Movie
+components:
+  schemas:
+    Movie:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        price:
+          type: number
+        vat:
+          type: number
+        description:
+          type: string
+      required:
+        - title
+        - price
+        - vat
