@@ -33,7 +33,7 @@
             <tbody>
             {% for movie in movies %}
                 <tr>
-                    <td >{{ movie.title }}</a></td>
+                    <td class="text-nowrap">{{ movie.title }}</a></td>
                     <td>{{ movie.price }}$</td>
                     <td>{{ movie.vat }}%</td>
                     <td>{{ movie.price * (1 + movie.vat / 100) }}$</td>
