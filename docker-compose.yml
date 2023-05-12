@@ -19,7 +19,19 @@ services:
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
 
+  db_test: # Add a new service for the test database
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE_TEST:-my_database_test}  # Use a different database name for testing
+      MYSQL_USER: ${MYSQL_USER:-my_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-my_password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-my_root_password}
+    ports:
+      - '3308:3306'  # Use a different port for the test database
+    volumes:
+      - ./data_test:/var/lib/mysql  # Use a separate volume for the test database
 volumes:
 ###> doctrine/doctrine-bundle ###
   database_data:
+  database_data_test:  # Add a new volume for the test database
 ###< doctrine/doctrine-bundle ###

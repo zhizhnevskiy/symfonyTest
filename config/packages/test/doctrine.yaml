@@ -1,0 +1,10 @@
+doctrine:
+    dbal:
+        connections:
+            default:
+                dbname: my_database_test
+                user: my_user
+                password: my_password
+                host: 127.0.0.1
+                port: 3308
+                driver: pdo_mysql
