@@ -23,4 +23,6 @@ $ npm install
 $ docker-compose up -d --build
 # Create link to public
 $ symfony server:start
+# Run tests
+$ ./vendor/bin/phpunit
 ```
