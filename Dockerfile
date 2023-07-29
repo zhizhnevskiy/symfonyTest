@@ -11,7 +11,7 @@ FROM php:${PHP_VERSION}-fpm-alpine AS symfony_php
 # Set working directory
 WORKDIR /var/www
 
-COPY --from=php_extension_installer  --link /usr/bin/install-php-extensions /usr/local/bin/
+COPY --from=php_extension_installer /usr/bin/install-php-extensions /usr/local/bin/
 
 RUN apk add --no-cache \
     bash \
