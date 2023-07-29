@@ -1,7 +1,6 @@
 # Use an official PHP-FPM image as the base image
 ARG PHP_VERSION=8.1
 ARG NGINX_VERSION=1.23.3
-ARG NODE_VERSION=16
 
 # Builder images
 FROM composer/composer:2-bin AS composer
@@ -29,10 +28,10 @@ RUN apk add --no-cache \
 # persistent / runtime deps
 RUN set -eux; \
     install-php-extensions \
-    	intl \
-    	zip \
-    	apcu \
-		opcache \
+        intl \
+        zip \
+        apcu \
+        opcache \
         amqp \
         pdo_mysql \
         sysvsem \
@@ -74,9 +73,20 @@ COPY composer.lock composer.json /var/www/
 
 RUN set -eux; \
     if [ -f composer.json ]; then \
-		composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress; \
-		composer clear-cache; \
+        composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress; \
+        composer clear-cache; \
+        composer dump-autoload --optimize --no-dev --classmap-authoritative; \
     fi
+
+# Copy node files
+COPY package.json package-lock.json /var/www/
+
+# Install Node.js and npm
+RUN apk add --no-cache nodejs npm
+
+# Install Node.js dependencies
+RUN npm install
+RUN npm run prod
 
 # Expose port 9000 and start PHP-FPM server
 EXPOSE 9000

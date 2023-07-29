@@ -36,12 +36,12 @@ jobs:
           docker-compose build
 
       - name: Check code quality (optional)
-        run: docker-compose run app php vendor/bin/phpstan analyze --level=2
+        run: docker-compose run app php vendor/bin/phpstan analyze
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' # Only deploy when pushing to the main branch
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Deploy to Heroku
