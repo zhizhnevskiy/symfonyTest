@@ -6,5 +6,5 @@ inputs:
     required: true
     default: '16.x'
 runs:
-  using: 'node12'  # Use node12 instead of node16
+  using: 'node16'  # Use node12 instead of node16
   main: 'setup-node.js'
