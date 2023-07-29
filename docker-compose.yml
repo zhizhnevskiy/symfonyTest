@@ -1,37 +1,67 @@
-version: '3'
+version: "3.8"
 
 services:
-###> doctrine/doctrine-bundle ###
-#  database:
-#    image: postgres:${POSTGRES_VERSION:-15}-alpine
+
+  #Application Service
+  app:
+    container_name: app
+    build:
+      context: .
+      target: symfony_php
+      dockerfile: Dockerfile
+    ports:
+      - '8000:9000'
+    volumes:
+      - ./:/var/www
+      - ./xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    environment:
+      DATABASE_URL: mysql://my_user:my_password@db:3306/my_database
+      PHP_IDE_CONFIG: "serverName=docker"
+      XDEBUG_CONFIG: "start_with_request=yes client_port=9000"
+      XDEBUG_MODE: "debug"
+    depends_on:
+      - db
+
+  #Nginx Service
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    links:
+      - app
+  #Database Service
   db:
     image: mysql:8.0
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-my_database}
-      MYSQL_USER: ${MYSQL_USER:-my_user}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-my_password}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-my_root_password}
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: my_password
+      MYSQL_ROOT_PASSWORD: my_root_password
     ports:
       - '3307:3306'
     volumes:
-      - ./data:/var/lib/mysql
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - ./.docker/data:/var/lib/mysql
 
-  db_test: # Add a new service for the test database
+  #Database Test Service
+  db_test:
     image: mysql:8.0
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE_TEST:-my_database_test}  # Use a different database name for testing
-      MYSQL_USER: ${MYSQL_USER:-my_user}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-my_password}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-my_root_password}
+      MYSQL_DATABASE: my_database_test
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: my_password
+      MYSQL_ROOT_PASSWORD: my_root_password
     ports:
-      - '3308:3306'  # Use a different port for the test database
+      - '3308:3306'
     volumes:
-      - ./data_test:/var/lib/mysql  # Use a separate volume for the test database
+      - ./.docker/data_test:/var/lib/mysql
+
 volumes:
-###> doctrine/doctrine-bundle ###
   database_data:
-  database_data_test:  # Add a new volume for the test database
-###< doctrine/doctrine-bundle ###
+  database_data_test:
