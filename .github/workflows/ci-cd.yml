@@ -33,7 +33,7 @@ jobs:
 
       - name: Build and test
         run: |
-          docker-compose up
+          docker-compose build
 
       - name: Check code quality (optional)
         run: docker-compose run app php vendor/bin/phpstan analyze
