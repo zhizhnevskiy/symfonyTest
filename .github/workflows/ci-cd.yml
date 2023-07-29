@@ -33,7 +33,7 @@ jobs:
 
       - name: Build and test
         run: |
-          docker-compose build --build-arg PHP_VERSION=8.1 --build-arg NGINX_VERSION=1.23.3
+          docker-compose build
 
       - name: Check code quality (optional)
         run: docker-compose run app php vendor/bin/phpstan analyze --level=2
