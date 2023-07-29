@@ -24,17 +24,17 @@ jobs:
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
-      - name: Set up Node.js 16.x
-        uses: ./
-        with:
-          node-version: '16.x'
-
       - name: Cache Composer dependencies
         uses: actions/cache@v2
         with:
           path: /root/.composer
           key: composer-${{ hashFiles('composer.lock') }}
           restore-keys: composer-
+
+      - name: Set up Node.js 16.x
+        uses: ./
+        with:
+          node-version: '16.x'
 
       - name: Build and test
         run: |
