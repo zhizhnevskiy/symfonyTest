@@ -25,4 +25,6 @@ $ docker-compose up -d --build
 $ symfony server:start
 # Run tests
 $ ./vendor/bin/phpunit
+# Analyse your codebase with PHPStan:
+$ vendor/bin/phpstan analyse
 ```

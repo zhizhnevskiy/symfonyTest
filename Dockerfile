@@ -11,7 +11,7 @@ FROM php:${PHP_VERSION}-fpm-alpine AS symfony_php
 # Set working directory
 WORKDIR /var/www
 
-COPY --from=php_extension_installer /usr/bin/install-php-extensions /usr/local/bin/
+COPY --from=php_extension_installer  --link /usr/bin/install-php-extensions /usr/local/bin/
 
 RUN apk add --no-cache \
     bash \
@@ -73,20 +73,19 @@ COPY composer.lock composer.json /var/www/
 
 RUN set -eux; \
     if [ -f composer.json ]; then \
-        composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress; \
-        composer clear-cache; \
-        composer dump-autoload --optimize --no-dev --classmap-authoritative; \
+		composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress; \
+		composer clear-cache; \
     fi
+
+# Copy existing application directory contents
+COPY . /var/www
 
 # Copy node files
 COPY package.json package-lock.json /var/www/
 
 # Install Node.js and npm
-RUN apk add --no-cache nodejs npm
-
-# Install Node.js dependencies
-RUN npm install
-RUN npm prod
+RUN apk add --update nodejs npm
+RUN npm install -g yarn
 
 # Expose port 9000 and start PHP-FPM server
 EXPOSE 9000
