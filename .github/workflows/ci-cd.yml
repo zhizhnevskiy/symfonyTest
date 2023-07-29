@@ -31,6 +31,9 @@ jobs:
           key: composer-${{ hashFiles('composer.lock') }}
           restore-keys: composer-
 
+      - name: Check code quality (optional)
+        run: docker-compose run app php vendor/bin/phpstan analyze
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
