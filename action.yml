@@ -1,5 +1,10 @@
 name: Set up Node.js 16.x
 description: Sets up Node.js 16.x on the runner
+inputs:
+  node-version:
+    description: 'The Node.js version to set up. Supported value: "16.x"'
+    required: true
+    default: '16.x'
 runs:
   using: 'node16'
   main: 'setup-node.js'
