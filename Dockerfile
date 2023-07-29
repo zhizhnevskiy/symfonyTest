@@ -80,12 +80,9 @@ RUN set -eux; \
 # Copy existing application directory contents
 COPY . /var/www
 
-# Copy node files
-COPY package.json package-lock.json /var/www/
-
-# Install Node.js and npm
-RUN apk add --update nodejs npm
-RUN npm install -g yarn
+# Install Node.js and npm, and then install yarn
+RUN apk add --update nodejs npm \
+    && npm install -g yarn
 
 # Expose port 9000 and start PHP-FPM server
 EXPOSE 9000
