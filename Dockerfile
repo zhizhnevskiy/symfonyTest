@@ -1,6 +1,7 @@
 # Use an official PHP-FPM image as the base image
 ARG PHP_VERSION=8.1
 ARG NGINX_VERSION=1.23.3
+ARG NODE_VERSION=16
 
 # Builder images
 FROM composer/composer:2-bin AS composer
@@ -47,10 +48,6 @@ RUN mkdir -p /run/nginx
 # nginx - config files
 COPY .docker/nginx/nginx.conf  /etc/nginx/
 COPY .docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-
-# Install Node.js and npm using apk
-RUN apk update && \
-    apk add --no-cache nodejs npm
 
 #cron
 COPY .docker/cron/ /var/www/cron/
