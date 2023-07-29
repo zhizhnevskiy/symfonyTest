@@ -86,7 +86,7 @@ RUN apk add --no-cache nodejs npm
 
 # Install Node.js dependencies
 RUN npm install
-RUN npm run prod
+RUN npm prod
 
 # Expose port 9000 and start PHP-FPM server
 EXPOSE 9000
