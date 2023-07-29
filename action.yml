@@ -1,5 +1,5 @@
 name: Set up Node.js 16.x
 description: Sets up Node.js 16.x on the runner
 runs:
-  using: node16
-  main: setup-node.js
+  using: 'node16'
+  main: 'setup-node.js'
