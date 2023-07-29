@@ -4,7 +4,7 @@ const exec = require('@actions/exec');
 async function run() {
     try {
         // Get the Node.js version from the action inputs
-        const nodeVersion = core.getInput('node-version');
+        const nodeVersion = core.getInput(['node-version']);
         if (!nodeVersion || nodeVersion !== '16.x') {
             throw new Error(`Invalid or unsupported Node.js version: ${nodeVersion}`);
         }
