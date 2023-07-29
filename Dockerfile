@@ -48,6 +48,10 @@ RUN mkdir -p /run/nginx
 COPY .docker/nginx/nginx.conf  /etc/nginx/
 COPY .docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
+# Install Node.js and Yarn
+RUN apk add --update nodejs npm
+RUN npm install -g yarn
+
 #cron
 COPY .docker/cron/ /var/www/cron/
 RUN chmod +x /var/www/cron/jobs/*.sh
