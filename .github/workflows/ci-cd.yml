@@ -35,11 +35,13 @@ jobs:
         run: |
           docker-compose build
 
-      - name: Install composer
-        run: docker-compose run app php composer install
+      - name: Install composer dependencies
+        run: |
+          docker-compose run app php composer install
 
       - name: Check code quality
-        run: docker-compose run app php vendor/bin/phpstan analyze
+        run: |
+          docker-compose run app php vendor/bin/phpstan analyze
 
   deploy:
     needs: build
