@@ -40,11 +40,17 @@ RUN set -eux; \
         http \
     ;
 
-# Copy existing application directory contents
-COPY . /var/www
-
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Copy 'composer.json' and 'composer.lock' first
+COPY composer.json composer.lock /var/www/
+
+# Install Composer dependencies
+RUN composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress && composer clear-cache
+
+# Copy the rest of the application
+COPY . /var/www
 
 # Install Node.js and npm, and then install yarn
 RUN apk add --update nodejs npm \

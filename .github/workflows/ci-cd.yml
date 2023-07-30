@@ -31,11 +31,12 @@ jobs:
           key: composer-${{ hashFiles('composer.lock') }}
           restore-keys: composer-
 
-      - name: Build and test
-        run: |
-          docker-compose build
 
-      - name: Check code quality (optional)
+
+      - name: Install composer
+        run: docker-compose run app php composer install
+
+      - name: Check code quality
         run: docker-compose run app php vendor/bin/phpstan analyze
 
   deploy:
