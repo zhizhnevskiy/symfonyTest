@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3"
 
 services:
 
@@ -7,7 +7,6 @@ services:
     container_name: app
     build:
       context: .
-      target: symfony_php
       dockerfile: Dockerfile
     ports:
       - '8000:9000'
@@ -33,9 +32,10 @@ services:
       - "443:443"
     volumes:
       - ./:/var/www
-      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/
     links:
       - app
+
   #Database Service
   db:
     image: mysql:8.0

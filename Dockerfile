@@ -1,4 +1,3 @@
-# Use an official PHP-FPM image as the base image
 ARG PHP_VERSION=8.1
 ARG NGINX_VERSION=1.23.3
 
@@ -41,49 +40,16 @@ RUN set -eux; \
         http \
     ;
 
-# nginx - nginx app permissions
-RUN mkdir -p /run/nginx
-
-# nginx - config files
-COPY .docker/nginx/nginx.conf  /etc/nginx/
-COPY .docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-
-#cron
-COPY .docker/cron/ /var/www/cron/
-RUN chmod +x /var/www/cron/jobs/*.sh
-
-COPY .docker/cron/crontab /var/spool/cron/crontabs/root
-
-#supervisor
-COPY .docker/php/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# docker entrypoint
-COPY .docker/entrypoint.sh /entrypoint.sh
-RUN chmod 755 /entrypoint.sh
-
-CMD ["/entrypoint.sh"]
-
-ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV PATH="${PATH}:/root/.composer/vendor/bin"
-
-COPY --from=composer/composer:2-bin /composer /usr/bin/composer
-
-# Copy composer.lock and composer.json
-COPY composer.lock composer.json /var/www/
-
-RUN set -eux; \
-    if [ -f composer.json ]; then \
-		composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress; \
-		composer clear-cache; \
-    fi
-
 # Copy existing application directory contents
 COPY . /var/www
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install Node.js and npm, and then install yarn
 RUN apk add --update nodejs npm \
     && npm install -g yarn
 
-# Expose port 9000 and start PHP-FPM server
+# Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]
