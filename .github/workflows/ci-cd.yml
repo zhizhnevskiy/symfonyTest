@@ -37,7 +37,7 @@ jobs:
 
       - name: Install composer dependencies
         run: |
-          docker-compose run app php composer install
+          docker-compose run app /usr/local/bin/composer install
 
       - name: Check code quality
         run: |

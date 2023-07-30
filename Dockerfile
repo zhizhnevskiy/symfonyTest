@@ -43,8 +43,11 @@ RUN set -eux; \
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Add Composer binary directory to PATH
+ENV PATH="${PATH}:/usr/local/bin"
+
 # Copy 'composer.json' and 'composer.lock' first
-COPY composer.json composer.lock /var/www/
+COPY composer.json composer.lock ./
 
 # Install Composer dependencies
 RUN composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress && composer clear-cache
