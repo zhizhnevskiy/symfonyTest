@@ -11,6 +11,8 @@ Used:
 > Docker
 >
 > MySQL
+> 
+> Xdebug
 
 ### Install project
 Run this command in terminal:
@@ -21,8 +23,6 @@ $ composer install
 $ npm install
 # Run docker
 $ docker-compose up -d --build
-# Create link to public
-$ symfony server:start
 # Run tests
 $ ./vendor/bin/phpunit
 # Analyse your codebase with PHPStan:
