@@ -64,6 +64,18 @@ services:
       - ./.docker/data_test:/var/lib/mysql
       - ./.docker/mysql/my.cnf:/etc/mysql/my.cnf
 
+  #phpMyAdmin Service
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    environment:
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=root
+      - PMA_HOST=db
+      - PMA_ARBITRARY=0
+    ports:
+      - 7778:80
+
 volumes:
   database_data:
   database_data_test:
