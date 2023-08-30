@@ -28,3 +28,5 @@ $ ./vendor/bin/phpunit
 # Analyse your codebase with PHPStan:
 $ vendor/bin/phpstan analyse
 ```
+### Open project
+> [Link to project](http://localhost/)
