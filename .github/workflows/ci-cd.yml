@@ -41,7 +41,7 @@ jobs:
 
       - name: Run PHPUnit tests
         run: |
-          docker-compose run app ./bin/phpunit
+          ./vendor/bin/phpunit
 
       - name: Check code quality
         run: |
