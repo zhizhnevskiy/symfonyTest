@@ -51,8 +51,6 @@ jobs:
           docker-compose run app php bin/console doctrine:schema:update --env=test --force
 
       - name: Run PHPUnit tests
-
-      - name: Run PHPUnit tests
         run: |
           ./vendor/bin/phpunit
 
