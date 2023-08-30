@@ -39,6 +39,10 @@ jobs:
         run: |
           docker-compose run app /usr/local/bin/composer install
 
+      - name: Run PHPUnit tests
+        run: |
+          docker-compose run app ./bin/phpunit
+
       - name: Check code quality
         run: |
           docker-compose run app php vendor/bin/phpstan analyze
