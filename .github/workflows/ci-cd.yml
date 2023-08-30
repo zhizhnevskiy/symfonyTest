@@ -39,6 +39,19 @@ jobs:
         run: |
           docker-compose run app /usr/local/bin/composer install
 
+      - name: Create test database and update schema
+        run: |
+          # Set the MySQL root password from the secret
+          MYSQL_ROOT_PASSWORD="${{ secrets.MYSQL_ROOT_PASSWORD }}"
+          
+          # Create the test database
+          docker-compose exec db mysql -u root --password="${MYSQL_ROOT_PASSWORD}" -e "CREATE DATABASE IF NOT EXISTS my_database_test;"
+          
+          # Update the schema for testing
+          docker-compose run app php bin/console doctrine:schema:update --env=test --force
+
+      - name: Run PHPUnit tests
+
       - name: Run PHPUnit tests
         run: |
           ./vendor/bin/phpunit
